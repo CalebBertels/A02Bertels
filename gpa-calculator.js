@@ -23,17 +23,29 @@ var App = {
         var credit6 = $('#credit6')[0];
     },
 
-    getGPATotal:function () {
+    calculateScores:function(){
         var score1 = Number(grade1.options[grade1.selectedIndex].value) * Number(credit1.value);
         var score2 = Number(grade2.options[grade2.selectedIndex].value) * Number(credit2.value);
         var score3 = Number(grade3.options[grade3.selectedIndex].value) * Number(credit3.value);
         var score4 = Number(grade4.options[grade4.selectedIndex].value) * Number(credit4.value);
         var score5 = Number(grade5.options[grade5.selectedIndex].value) * Number(credit5.value);
         var score6 = Number(grade6.options[grade6.selectedIndex].value) * Number(credit6.value);
+        return score1 + score2 + score3 + score4 + score5 + score6;
+    },
 
-        var totalScore = score1 + score2 + score3 + score4 + score5 + score6;
+    calcGpa:function(totalScore, totalCredits){
+        if(isNaN(totalScore) || isNaN(totalCredits)){
+            alert("Please make sure you have only entered numbers in for your credit hours.");
+        } else{
+            return totalScore/totalCredits;
+        }
+    },
+
+    getGPATotal:function () {
+
+        var totalScore = App.calculateScores();
         var totalCredits = Number(credit1.value) + Number(credit2.value) + Number(credit3.value) + Number(credit4.value) + Number(credit5.value) + Number(credit6.value);
-        var gpa = (totalScore/totalCredits);
+        var gpa = App.calcGpa(totalScore, totalCredits);
 
         if(isNaN(gpa)){
             document.getElementById("displayGPAError").innerHTML = ("Please enter details for at least one class, and make sure your Credit Hours are all numbers.")
